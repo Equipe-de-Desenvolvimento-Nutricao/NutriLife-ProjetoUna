@@ -1,6 +1,6 @@
-package com.nutrifile.model;
+package com.nutrilife.backend.model;
 
-public class Nutri{
+public class Nutri {
     private Long id;
     private String nome;
     private String email;
@@ -8,12 +8,11 @@ public class Nutri{
 
     public Nutri() {} //construtor vazio
 
-    public Nutri(String nome, String email, String senha){
-            this.id = id;
+    public Nutri(String nome, String email, String senha) {
             this.nome = nome;
             this.email = email;
             this.senha = senha;
-    } //contrutor com coisas drento
+    } //construtor com coisas dentro
 
     //get e set
     public Long getId(){ //obter dados
@@ -37,7 +36,7 @@ public class Nutri{
     public String getSenha(){
         return senha;
     }
-    public void setSenha(String Senha){
+    public void setSenha(String senha) {
         this.senha = senha;
     }
 }
