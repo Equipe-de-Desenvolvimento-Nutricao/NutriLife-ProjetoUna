@@ -10,7 +10,7 @@ import {
 
 import { style } from "./styles";
 import Logo from "../../assets/logo2.png";
-import { MaterialIcons } from "../../../node_modules/expo/node_modules/@expo/vector-icons";
+import { MaterialIcons } from "expo/node_modules/@expo/vector-icons";
 import { themas } from "../../global/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Biblioteca para armazenamento local
 import { useNavigation } from "@react-navigation/native";

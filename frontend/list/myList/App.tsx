@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Login from './src/pages/login';
-import Cadastro from './src/pages/cadastro';
+import Cadastro from './src/pages/cadastro/cadastro';
 import Home from './src/pages/home';
 
 export type RootStackParamList = {

@@ -16,4 +16,12 @@ import com.nutrilife.backend.repository.NutriRepository; //os imports fazem a co
 
 public class NutriController {
 
+    @Autowired //injeção de dependencia do Spring
+    private NutriRepository nutriRepository; //cria uma instancia do repositorio
+    
+    @PostMapping("/cadastro") // faz o Spring ler O JSON enviado pelo front
+        public Nutri cadastrarNutri(@RequestBody Nutri nutricionista) {
+            return nutriRepository.save(nutricionista); //salva o nutricionista no banco de dados
+
+}
 }
