@@ -11,8 +11,8 @@ import com.nutrilife.backend.model.Nutri;
 import com.nutrilife.backend.repository.NutriRepository; //os imports fazem a conexao entre as classes
 
 @RestController //indica queclasse e um controlador REST
-@RequestMapping("/nutricionistas/") //define o caminho base para a APUI
-@CrossOrigin(origins = "ainda não tenho certeza qual a porta vai conectara aqui") //permite que o React Native acesse o back
+@RequestMapping("/nutricionistas") //define o caminho base para a API
+@CrossOrigin(origins = "http://localhost:19006") //permite que o React Native acesse o back
 
 public class NutriController {
 
@@ -20,8 +20,7 @@ public class NutriController {
     private NutriRepository nutriRepository; //cria uma instancia do repositorio
     
     @PostMapping("/cadastro") // faz o Spring ler O JSON enviado pelo front
-        public Nutri cadastrarNutri(@RequestBody Nutri nutricionista) {
-            return nutriRepository.save(nutricionista); //salva o nutricionista no banco de dados
-
-}
+    public Nutri cadastrarNutri(@RequestBody Nutri nutricionista) {
+        return nutriRepository.save(nutricionista); //salva o nutricionista no banco de dados
+    }
 }
