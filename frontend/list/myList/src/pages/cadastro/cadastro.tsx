@@ -12,10 +12,10 @@ import { style } from "./styles";
 import Logo from "../../assets/logo2.png";
 import { MaterialIcons } from "expo/node_modules/@expo/vector-icons";
 import { themas } from "../../global/themes";
-import AsyncStorage from "@react-native-async-storage/async-storage"; // Biblioteca para armazenamento local
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../App";
+import { api } from "../../services/api";
 
 type CadastroScreenProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -75,34 +75,21 @@ export default function Cadastro() {
     }
 
     if (!validarCampos()) return;
-
     try {
-      const usuarios = await AsyncStorage.getItem("usuarios");
-      const lista = usuarios ? JSON.parse(usuarios) : [];
+  const response = await api.post("/nutricionistas/cadastro", {
+    nome: usuario,
+    email: email,
+    senha: senha,
+  });
 
-      const existe = lista.find(
-        (u: { email: string; usuario: string }) =>
-          u.email === email || u.usuario === usuario
-      );
+  Alert.alert("Sucesso", "Usuário cadastrado com sucesso!");
+  navigation.navigate("Login");
 
-      if (existe) {
-        Alert.alert(
-          "Erro",
-          "Já existe um usuário com este e-mail ou nome de usuário!"
-        );
-        return;
-      }
-
-      const novoUsuario = { usuario, email, senha };
-      lista.push(novoUsuario);
-
-      await AsyncStorage.setItem("usuarios", JSON.stringify(lista));
-      Alert.alert("Sucesso", "Usuário cadastrado com sucesso!");
-      navigation.navigate("Login");
-    } catch (e) {
-      Alert.alert("Erro", "Não foi possível salvar o cadastro.");
-      console.error(e);
-    }
+} catch (error) {
+  Alert.alert("Erro", "Falha ao cadastrar no servidor.");
+  console.error(error);
+}
+    
   };
 
   return (

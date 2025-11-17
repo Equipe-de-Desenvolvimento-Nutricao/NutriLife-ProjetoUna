@@ -1,0 +1,60 @@
+package com.nutrilife.backend.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.nutrilife.backend.model.Nutri;
+import com.nutrilife.backend.repository.NutriRepository;
+
+//CRUD completo com tratamento de senha e transações
+
+@Service
+public class NutriService {
+
+    private final NutriRepository repository;
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    public NutriService(NutriRepository repository) {
+        this.repository = repository;
+        this.passwordEncoder = new BCryptPasswordEncoder(); // ou injetar como bean
+    }
+
+    @Transactional
+    public Nutri cadastrar(Nutri nutri) {
+        if (repository.findByEmail(nutri.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("E-mail já cadastrado");
+        }
+        nutri.setSenha(passwordEncoder.encode(nutri.getSenha()));
+        return repository.save(nutri);
+    }
+
+    public List<Nutri> listarTodos() {
+        return repository.findAll();
+    }
+
+    public Optional<Nutri> buscarPorId(Long id) {
+        return repository.findById(id);
+    }
+
+    @Transactional
+    public Nutri atualizar(Long id, Nutri dados) {
+        Nutri existente = repository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Nutricionista não encontrado"));
+        existente.setNome(dados.getNome());
+        existente.setEmail(dados.getEmail());
+        // se senha for atualizada:
+        if (dados.getSenha() != null && !dados.getSenha().isBlank()) {
+            existente.setSenha(passwordEncoder.encode(dados.getSenha()));
+        }
+        return repository.save(existente);
+    }
+
+    @Transactional
+    public void deletar(Long id) {
+        repository.deleteById(id);
+    }
+}
