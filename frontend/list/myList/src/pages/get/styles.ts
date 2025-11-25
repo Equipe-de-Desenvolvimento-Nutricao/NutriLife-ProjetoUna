@@ -1,0 +1,128 @@
+import { StyleSheet } from "react-native";
+import { themas } from "../../global/themes";
+
+const   PRIMARY = themas.colors.primary,
+        BG= themas.colors.bgScreen,
+        TRANSLUCENT= "rgba(255,255,255,0.72)"
+
+
+export const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: BG,
+  },
+  headerArea: {
+    height: 120,
+    backgroundColor: PRIMARY,
+    borderBottomLeftRadius: 22,
+    borderBottomRightRadius: 22,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.12,
+    elevation: 6,
+  },
+  headerTitle: {
+    color: "black",
+    fontSize: 36,
+    fontWeight: "800",
+    letterSpacing: 1,
+  },
+  body: {
+    flex: 1,
+    paddingHorizontal: 18,
+    paddingTop: 20,
+  },
+  label: {
+    marginTop: 12,
+    marginLeft: 6,
+    color: "#333",
+    fontSize: 14,
+    fontWeight: "700",
+  },
+  inputRow: {
+    marginTop: 8,
+    height: 48,
+    backgroundColor: TRANSLUCENT,
+    borderRadius: 28,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 14,
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.06)",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.06,
+    elevation: 2,
+  },
+  input: {
+    flex: 1,
+    fontSize: 16,
+    color: "#111",
+    paddingVertical: 4,
+  },
+  icon: {
+    color: "#333",
+    opacity: 0.9,
+    marginLeft: 10,
+  },
+  radioArea: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    marginLeft: 6,
+    marginTop: 10,
+  },
+  radioOption: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 28,
+  },
+  radioCircle: {
+    width: 20,
+    height: 20,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: PRIMARY,
+    marginRight: 8,
+    backgroundColor: "transparent",
+  },
+  radioSelected: {
+    backgroundColor: PRIMARY,
+    borderColor: PRIMARY,
+  },
+  radioText: {
+    fontSize: 16,
+    color: "#333",
+    fontWeight: "700",
+  },
+  pickerBox: {
+    width: "100%",
+    height: 52,
+    borderRadius: 14,
+    marginTop: 8,
+    alignSelf: "center",
+    backgroundColor: TRANSLUCENT,
+    borderColor: "rgba(0,0,0,0.06)",
+    borderWidth: 1,
+    justifyContent: "center",
+    paddingHorizontal: 10,
+  },
+  buttonPrimary: {
+    marginTop: 26,
+    height: 50,
+    backgroundColor: PRIMARY,
+    borderRadius: 28,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: PRIMARY,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.18,
+    elevation: 6,
+  },
+  buttonPrimaryText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "800",
+  },
+});
