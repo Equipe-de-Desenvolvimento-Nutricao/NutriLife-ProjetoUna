@@ -69,6 +69,47 @@ export default function Cadastro() {
   };
 
   const handleCadastro = async () => {
+    console.log("🔵 Botão clicado!");
+    console.log("Dados:", { usuario, email, senha });
+    
+    if (!usuario || !email || !senha) {
+      Alert.alert("Erro", "Preencha todos os campos!");
+      return;
+    }
+
+    console.log("✅ Passou na validação de campos vazios");
+
+    if (!validarCampos()) {
+      console.log("❌ Validação falhou");
+      return;
+    }
+    
+    console.log("✅ Passou na validação de regex");
+    console.log("🚀 Enviando para o servidor...");
+    
+    try {
+      const response = await api.post("/nutricionistas/cadastrar", {
+        nome: usuario,
+        email: email,
+        senha: senha,
+      });
+
+      console.log("✅ Resposta do servidor:", response.data);
+      Alert.alert("Sucesso", "Usuário cadastrado com sucesso!");
+      navigation.navigate("Login");
+
+    } catch (error: any) {
+  console.log("❌ Erro na requisição:", error);
+  console.log("📋 Detalhes do erro:", error.response?.data);
+  console.log("🔢 Status:", error.response?.status);
+  console.log("🌐 URL chamada:", error.config?.url);
+  Alert.alert("Erro", "Falha ao cadastrar no servidor.");
+  console.error(error);
+}
+  };
+  
+
+  /*const handleCadastro = async () => {
     if (!usuario || !email || !senha) {
       Alert.alert("Erro", "Preencha todos os campos!");
       return;
@@ -76,7 +117,7 @@ export default function Cadastro() {
 
     if (!validarCampos()) return;
     try {
-  const response = await api.post("/nutricionistas/cadastro", {
+  const response = await api.post("/nutricionistas/cadastrar", {
     nome: usuario,
     email: email,
     senha: senha,
@@ -91,6 +132,7 @@ export default function Cadastro() {
 }
     
   };
+  */
 
   return (
     <View style={style.container}>

@@ -1,26 +1,65 @@
 package com.nutrilife.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import com.nutrilife.backend.dto.LoginRequest;
 import com.nutrilife.backend.model.Nutri;
-import com.nutrilife.backend.repository.NutriRepository; //os imports fazem a conexao entre as classes
+import com.nutrilife.backend.repository.NutriRepository;
 
-@RestController //indica queclasse e um controlador REST
-@RequestMapping("/nutricionistas") //define o caminho base para a API
-@CrossOrigin(origins = "http://localhost:19006") //permite que o React Native acesse o back
+import java.util.Optional;
 
+@RestController
+@RequestMapping("/nutricionistas")
+@CrossOrigin(origins = "*")
 public class NutriController {
 
-    @Autowired //injeção de dependencia do Spring
-    private NutriRepository nutriRepository; //cria uma instancia do repositorio
-    
-    @PostMapping("/cadastro") // faz o Spring ler O JSON enviado pelo front
-    public Nutri cadastrarNutri(@RequestBody Nutri nutricionista) {
-        return nutriRepository.save(nutricionista); //salva o nutricionista no banco de dados
+    @Autowired
+    private NutriRepository nutriRepository;
+
+    // ============================
+    // CADASTRO
+    // ============================
+    @PostMapping("/cadastrar")
+    public ResponseEntity<?> cadastrar(@RequestBody Nutri novoNutri) {
+
+        // Verifica se email já existe
+        Optional<Nutri> existente = nutriRepository.findByEmail(novoNutri.getEmail());
+
+        if (existente.isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Este email já está cadastrado!");
+        }
+
+        // Salva no banco
+        nutriRepository.save(novoNutri);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Cadastro realizado com sucesso!");
+    }
+
+    // ============================
+    // LOGIN
+    // ============================
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+
+        Optional<Nutri> nutriOpt = nutriRepository.findByEmail(loginRequest.getEmail());
+
+        if (nutriOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Email inválido!");
+        }
+
+        Nutri nutri = nutriOpt.get();
+
+        if (!nutri.getSenha().equals(loginRequest.getSenha())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Senha incorreta!");
+        }
+
+        return ResponseEntity.ok("Login realizado com sucesso!");
     }
 }

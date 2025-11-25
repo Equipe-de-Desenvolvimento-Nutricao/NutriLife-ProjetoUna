@@ -9,4 +9,6 @@ import com.nutrilife.backend.model.Nutri;
 @Repository
 public interface NutriRepository extends JpaRepository<Nutri, Long> {
     Optional<Nutri> findByEmail(String email);
+
+    Optional<Nutri> findByEmailOrNome(String email, String nome);
 }
