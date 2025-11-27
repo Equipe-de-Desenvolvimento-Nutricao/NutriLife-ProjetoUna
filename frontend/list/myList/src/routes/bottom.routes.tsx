@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Home from "../pages/home";
+import Home from "../pages/inicio";
 import Imc from "../pages/imc";
 import Get from "../pages/get";
 import TabBar from "../components/CustomTabBar";  

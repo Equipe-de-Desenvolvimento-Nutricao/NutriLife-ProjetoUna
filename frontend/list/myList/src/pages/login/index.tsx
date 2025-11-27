@@ -29,43 +29,34 @@ export default function Login() {
   const [senha, setSenha] = useState("");
 
   const handleLogin = async () => {
-  console.log("🔵 Tentando fazer login...");
-  
-  if (!login || !senha) {
-    Alert.alert('Erro', 'Preencha todos os campos!');
-    return;
-  }
-
-  try {
-    const response = await fetch("http://192.168.15.3:8080/nutricionistas/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: login,
-        senha: senha,
-      }),
-    });
-
-    console.log("📊 Status:", response.status);
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.log("❌ Erro do servidor:", errorText);
-      Alert.alert("Erro", errorText || "Usuário ou senha incorretos.");
+    console.log("🔵 Tentando fazer login...");
+    console.log("Dados:", { email: login, senha });
+    
+    if (!login || !senha) {
+      Alert.alert('Erro', 'Preencha todos os campos!');
       return;
     }
 
-    const data = await response.text(); // Backend retorna texto, não JSON
-    console.log("✅ Resposta:", data);
+    console.log("✅ Campos preenchidos");
+    console.log("🚀 Enviando para o servidor...");
 
-    Alert.alert("Sucesso", "Login realizado!");
-    navigation.navigate("Home");
+    try {
+      const response = await api.post("/nutricionistas/login", {
+        email: login,
+        senha: senha,
+      });
 
-  } catch (error) {
-    console.log("❌ Erro na requisição:", error);
-    Alert.alert("Erro", "Falha ao conectar ao servidor.");
-  }
-};
+      console.log("✅ Resposta do servidor:", response.data);
+      Alert.alert("Sucesso", "Login realizado!");
+      navigation.navigate("Home");
+
+    } catch (error: any) {
+      console.log("❌ Erro na requisição:", error);
+      console.log("📋 Detalhes do erro:", error.response?.data);
+      console.log("🔢 Status:", error.response?.status);
+      Alert.alert("Erro", error.response?.data || "Falha ao conectar ao servidor.");
+    }
+  };
 
   return (
     <View style={style.container}>

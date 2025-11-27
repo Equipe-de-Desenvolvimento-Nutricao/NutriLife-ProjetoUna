@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import * as Animatable from "react-native-animatable";
 import { style } from "./styles";
-import { FontAwesome5 } from "../../../node_modules/expo/node_modules/@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 type Params = {
   ResultadoGet: {

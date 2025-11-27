@@ -10,7 +10,7 @@ import {
 
 import { style } from "./styles";
 import Logo from "../../assets/logo2.png";
-import { MaterialIcons } from "expo/node_modules/@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { themas } from "../../global/themes";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";

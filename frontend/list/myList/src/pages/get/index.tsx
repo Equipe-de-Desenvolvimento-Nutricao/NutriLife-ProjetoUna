@@ -10,7 +10,7 @@ import {
   StatusBar,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
-import { FontAwesome5 } from "../../../node_modules/expo/node_modules/@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
