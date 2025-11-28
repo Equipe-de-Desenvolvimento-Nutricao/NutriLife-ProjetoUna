@@ -1,24 +1,34 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../../App";
 import * as Animatable from "react-native-animatable";
 import { style } from "./styles";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-type Params = {
-  ResultadoGet: {
-    tmb: string;
-    manter: string;
-    emagrecer: string;
-    ganhar: string;
-  };
-};
+type ResultadoGetRouteProp = RouteProp<RootStackParamList, "ResultadoGet">;
+type ResultadoGetNavigationProp = NativeStackNavigationProp<RootStackParamList, "ResultadoGet">;
 
 export default function ResultadoGet() {
-  const route = useRoute<RouteProp<Params, "ResultadoGet">>();
-  const navigation = useNavigation();
+  const route = useRoute<ResultadoGetRouteProp>();
+  const navigation = useNavigation<ResultadoGetNavigationProp>();
 
-  const { tmb, manter, emagrecer, ganhar } = route.params;
+  const { sexo, peso, altura, idade, atividade, tmb, manter, emagrecer, ganhar } = route.params;
+
+  const salvarPaciente = () => {
+    navigation.navigate("SalvarPaciente", {
+      sexo,
+      peso,
+      altura,
+      idade,
+      atividade,
+      tmb,
+      manter,
+      emagrecer,
+      ganhar,
+    });
+  };
 
   return (
     <Animatable.View animation="fadeInUp" duration={800} style={style.container}>
@@ -63,7 +73,7 @@ export default function ResultadoGet() {
 
         <TouchableOpacity
           style={style.buttonSave}
-          onPress={() => alert("Resultado salvo!")}
+          onPress={salvarPaciente}
         >
           <Text style={style.buttonTextSave}>Salvar</Text>
         </TouchableOpacity>

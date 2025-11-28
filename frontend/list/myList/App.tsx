@@ -11,6 +11,8 @@ import Imc from './src/pages/imc';
 import Get from './src/pages/get';
 import ResultadoGet from './src/pages/resultadoGet';
 import Diploma from './src/pages/diploma';
+import SalvarPaciente from './src/pages/salvarPaciente';
+import MeusPacientes from './src/pages/meusPacientes';
 
 export type RootStackParamList = {
   Inicio: undefined;
@@ -19,13 +21,30 @@ export type RootStackParamList = {
   Home: undefined; 
   Imc: undefined;                           
   Get: undefined;                           
-  ResultadoGet: {                           
+  ResultadoGet: {
+    sexo: string;             
+    peso: string;             
+    altura: string;           
+    idade: string;            
+    atividade: string;        
+    tmb: string;
+    manter: string;
+    emagrecer: string;
+    ganhar: string;
+  };
+  SalvarPaciente: {           
+    sexo: string;
+    peso: string;
+    altura: string;
+    idade: string;
+    atividade: string;
     tmb: string;
     manter: string;
     emagrecer: string;
     ganhar: string;
   };
   Diploma: undefined;
+  MeusPacientes: undefined;
 };
 
 const Stack = createNativeStackNavigator();
@@ -53,8 +72,8 @@ export default function App() {
           name="Home" 
           component={Home} 
           options={{ headerShown: false }}
-       />
-       <Stack.Screen 
+        />
+        <Stack.Screen 
           name="Imc" 
           component={Imc} 
           options={{ headerShown: false }}
@@ -70,16 +89,25 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen 
+          name="SalvarPaciente" 
+          component={SalvarPaciente} 
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
           name="Diploma" 
           component={Diploma} 
           options={{ headerShown: false }}
-/>
+        />
+          <Stack.Screen 
+          name="MeusPacientes" 
+          component={MeusPacientes} 
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  
   
 });

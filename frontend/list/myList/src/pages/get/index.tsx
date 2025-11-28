@@ -14,7 +14,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import type { RootStackParamList } from "../../routes/index.routes";
+import type { RootStackParamList } from "../../../App";
 import { style } from "./styles";
 import { themas } from "../../global/themes";
 
@@ -75,6 +75,11 @@ export default function Get() {
     const ganhar = get + 400;
 
     navigation.navigate("ResultadoGet", {
+      sexo: sexo,                              
+      peso: peso,                             
+      altura: altura,                          
+      idade: idade,                            
+      atividade: atividade,                    
       tmb: Math.round(tmb).toString(),
       manter: Math.round(manter).toString(),
       emagrecer: Math.round(emagrecer).toString(),

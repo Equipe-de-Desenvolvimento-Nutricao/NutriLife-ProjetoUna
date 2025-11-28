@@ -60,7 +60,7 @@ export default function Home() {
           </Animatable.View>
 
          {/* Card Diploma */}
-            <Animatable.View animation="fadeInUp" delay={500}>
+          <Animatable.View animation="fadeInUp" delay={500}>
             <TouchableOpacity
               style={style.card}
               onPress={() => navigation.navigate("Diploma")}
@@ -74,13 +74,19 @@ export default function Home() {
             </TouchableOpacity>
           </Animatable.View>
 
-          {/* Card Em Breve 2 */}
+          {/* Card Meus Pacientes */}
           <Animatable.View animation="fadeInUp" delay={600}>
-            <View style={[style.card, style.comingSoonCard]}>
-              <FontAwesome5 name="plus-circle" size={40} color="#ccc" />
-              <Text style={[style.cardTitle, style.comingSoonText]}>Em Breve</Text>
-              <Text style={style.cardDescription}>Nova funcionalidade</Text>
-            </View>
+            <TouchableOpacity
+              style={style.card}
+              onPress={() => navigation.navigate("MeusPacientes")}
+              activeOpacity={0.7}
+            >
+              <View style={style.cardIcon}>
+                <FontAwesome5 name="users" size={40} color={themas.colors.primary} />
+              </View>
+              <Text style={style.cardTitle}>Meus Pacientes</Text>
+              <Text style={style.cardDescription}>Visualizar pacientes cadastrados</Text>
+            </TouchableOpacity>
           </Animatable.View>
         </View>
       </ScrollView>
