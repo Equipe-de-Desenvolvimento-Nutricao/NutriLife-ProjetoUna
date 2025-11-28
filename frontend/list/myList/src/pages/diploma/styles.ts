@@ -1,0 +1,132 @@
+import { StyleSheet } from "react-native";
+import { themas } from "../../global/themes";
+
+export const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: themas.colors.bgScreen,
+  },
+  header: {
+    height: 160,
+    backgroundColor: themas.colors.primary,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    elevation: 8,
+  },
+  headerTitle: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#fff",
+    marginTop: 15,
+  },
+  headerSubtitle: {
+    fontSize: 14,
+    color: "#fff",
+    marginTop: 5,
+    opacity: 0.9,
+  },
+  body: {
+    flex: 1,
+    padding: 20,
+  },
+  previewContainer: {
+    alignItems: "center",
+    marginTop: 20,
+  },
+  imagemPreview: {
+    width: "100%",
+    height: 300,
+    borderRadius: 15,
+    resizeMode: "contain",
+    backgroundColor: "#f0f0f0",
+  },
+  removerButton: {
+    marginTop: 15,
+    padding: 10,
+  },
+  removerText: {
+    color: "red",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  placeholderContainer: {
+    height: 300,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f8f8f8",
+    borderRadius: 15,
+    borderWidth: 2,
+    borderColor: "#e0e0e0",
+    borderStyle: "dashed",
+    marginTop: 20,
+  },
+  placeholderText: {
+    marginTop: 15,
+    color: "#999",
+    fontSize: 16,
+  },
+  botoesContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 30,
+  },
+  botaoGaleria: {
+    flex: 1,
+    backgroundColor: themas.colors.primary,
+    padding: 15,
+    borderRadius: 15,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
+    elevation: 3,
+  },
+  botaoCamera: {
+    flex: 1,
+    backgroundColor: themas.colors.primary,
+    padding: 15,
+    borderRadius: 15,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 10,
+    elevation: 3,
+  },
+  botaoTexto: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginLeft: 10,
+  },
+  botaoEnviar: {
+    backgroundColor: themas.colors.primary,
+    padding: 18,
+    borderRadius: 15,
+    alignItems: "center",
+    marginTop: 30,
+    elevation: 5,
+  },
+  botaoDesabilitado: {
+    backgroundColor: "#ccc",
+    elevation: 0,
+  },
+  botaoEnviarTexto: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  botaoVoltar: {
+    padding: 15,
+    alignItems: "center",
+    marginTop: 15,
+  },
+  botaoVoltarTexto: {
+    color: themas.colors.gray,
+    fontSize: 16,
+  },
+});

@@ -20,12 +20,17 @@ public class Nutri {
     @Column(nullable = false) //garante que senha n seja nulo no banco de dados
     private String senha;
 
+    @Column(unique = true, nullable = false)
+    private int crm;
+
     public Nutri() {} //construtor vazio
 
-    public Nutri(String nome, String email, String senha) {
+    public Nutri(String nome, String email, String senha, int crm) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
+        this.crm = crm;
+
     } //construtor com coisas dentro
 
     //get e set
@@ -59,5 +64,13 @@ public class Nutri {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public int getCrm() {
+        return crm;
+    }
+    
+    public void setCrm(int crm) {
+        this.crm = crm;
     }
 }
