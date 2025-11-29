@@ -13,6 +13,8 @@ import ResultadoGet from './src/pages/resultadoGet';
 import Diploma from './src/pages/diploma';
 import SalvarPaciente from './src/pages/salvarPaciente';
 import MeusPacientes from './src/pages/meusPacientes';
+import SelecionarPaciente from './src/pages/selecionarPaciente';
+import CriarDieta from './src/pages/criarDieta';
 
 export type RootStackParamList = {
   Inicio: undefined;
@@ -21,7 +23,7 @@ export type RootStackParamList = {
   Home: undefined; 
   Imc: undefined;                           
   Get: undefined;                           
-  ResultadoGet: {
+  ResultadoGet: { 
     sexo: string;             
     peso: string;             
     altura: string;           
@@ -45,6 +47,22 @@ export type RootStackParamList = {
   };
   Diploma: undefined;
   MeusPacientes: undefined;
+  SelecionarPaciente: undefined;
+  CriarDieta: {
+  paciente: {
+    id: number;
+    nome: string;
+    idade: number;
+    sexo: string;
+    altura: number;
+    peso: number;
+    nivelAtividade: string;
+    tmb: number;
+    getManter: number;
+    getEmagrecer: number;
+    getGanhar: number;
+  };
+};
 };
 
 const Stack = createNativeStackNavigator();
@@ -103,7 +121,17 @@ export default function App() {
           component={MeusPacientes} 
           options={{ headerShown: false }}
         />
-      </Stack.Navigator>
+        <Stack.Screen 
+          name="SelecionarPaciente" 
+          component={SelecionarPaciente} 
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+        name="CriarDieta" 
+        component={CriarDieta} 
+        options={{ headerShown: false }}
+        />
+    </Stack.Navigator>
     </NavigationContainer>
   );
 }

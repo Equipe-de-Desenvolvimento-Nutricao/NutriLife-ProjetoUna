@@ -89,6 +89,20 @@ export default function Home() {
             </TouchableOpacity>
           </Animatable.View>
         </View>
+        {/* Card Criar Dieta */}
+        <Animatable.View animation="fadeInUp" delay={700}>
+          <TouchableOpacity
+            style={style.card}
+            onPress={() => navigation.navigate("SelecionarPaciente")}
+            activeOpacity={0.7}
+          >
+            <View style={style.cardIcon}>
+              <FontAwesome5 name="clipboard-list" size={40} color={themas.colors.primary} />
+            </View>
+            <Text style={style.cardTitle}>Criar Dieta</Text>
+            <Text style={style.cardDescription}>Montar plano alimentar personalizado</Text>
+          </TouchableOpacity>
+            </Animatable.View>
       </ScrollView>
     </View>
   );
