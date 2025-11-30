@@ -2,6 +2,8 @@ package com.nutrilife.backend.model;
 
 import jakarta.persistence.*;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "refeicoes")
@@ -13,6 +15,7 @@ public class Refeicao {
 
     @ManyToOne
     @JoinColumn(name = "dieta_id", nullable = false)
+    @JsonBackReference
     private Dieta dieta;
 
     @Column(nullable = false)
@@ -25,6 +28,7 @@ public class Refeicao {
     private int ordem; // Para ordenar as refeições
 
     @OneToMany(mappedBy = "refeicao", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Alimento> alimentos;
 
     // Construtor vazio

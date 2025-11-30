@@ -1,6 +1,7 @@
 package com.nutrilife.backend.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "alimentos")
@@ -12,6 +13,7 @@ public class Alimento {
 
     @ManyToOne
     @JoinColumn(name = "refeicao_id", nullable = false)
+    @JsonBackReference
     private Refeicao refeicao;
 
     @Column(nullable = false)

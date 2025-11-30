@@ -15,6 +15,7 @@ import SalvarPaciente from './src/pages/salvarPaciente';
 import MeusPacientes from './src/pages/meusPacientes';
 import SelecionarPaciente from './src/pages/selecionarPaciente';
 import CriarDieta from './src/pages/criarDieta';
+import DetalhesPaciente from './src/pages/detalhesPaciente';
 
 export type RootStackParamList = {
   Inicio: undefined;
@@ -49,20 +50,35 @@ export type RootStackParamList = {
   MeusPacientes: undefined;
   SelecionarPaciente: undefined;
   CriarDieta: {
-  paciente: {
-    id: number;
-    nome: string;
-    idade: number;
-    sexo: string;
-    altura: number;
-    peso: number;
-    nivelAtividade: string;
-    tmb: number;
-    getManter: number;
-    getEmagrecer: number;
-    getGanhar: number;
+    paciente: {
+      id: number;
+      nome: string;
+      idade: number;
+      sexo: string;
+      altura: number;
+      peso: number;
+      nivelAtividade: string;
+      tmb: number;
+      getManter: number;
+      getEmagrecer: number;
+      getGanhar: number;
+    };
   };
-};
+  DetalhesPaciente: {
+    paciente: {
+      id: number;
+      nome: string;
+      idade: number;
+      sexo: string;
+      altura: number;
+      peso: number;
+      nivelAtividade: string;
+      tmb: number;
+      getManter: number;
+      getEmagrecer: number;
+      getGanhar: number;
+    };
+  };
 };
 
 const Stack = createNativeStackNavigator();
@@ -131,6 +147,11 @@ export default function App() {
         component={CriarDieta} 
         options={{ headerShown: false }}
         />
+        <Stack.Screen 
+  name="DetalhesPaciente" 
+  component={DetalhesPaciente} 
+  options={{ headerShown: false }}
+/>
     </Stack.Navigator>
     </NavigationContainer>
   );

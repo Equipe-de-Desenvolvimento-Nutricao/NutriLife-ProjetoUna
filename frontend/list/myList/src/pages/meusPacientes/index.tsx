@@ -6,6 +6,10 @@ import { useNavigation } from "@react-navigation/native";
 import { style } from "./styles";
 import { themas } from "../../global/themes";
 import { api } from "../../services/api";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../../App";
+
+type MeusPacientesNavigationProp = NativeStackNavigationProp<RootStackParamList, "MeusPacientes">;
 
 interface Paciente {
   id: number;
@@ -22,7 +26,7 @@ interface Paciente {
 }
 
 export default function MeusPacientes() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<MeusPacientesNavigationProp>();
   const [pacientes, setPacientes] = useState<Paciente[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -94,10 +98,10 @@ export default function MeusPacientes() {
         </View>
       </View>
 
-      <TouchableOpacity 
-        style={style.detailsButton}
-        onPress={() => Alert.alert("Em breve", "Funcionalidade de detalhes em desenvolvimento")}
-      >
+     <TouchableOpacity 
+      style={style.detailsButton}
+      onPress={() => navigation.navigate("DetalhesPaciente", { paciente: item })}
+>     
         <Text style={style.detailsButtonText}>VER DETALHES</Text>
         <FontAwesome5 name="chevron-right" size={14} color={themas.colors.primary} />
       </TouchableOpacity>

@@ -3,6 +3,7 @@ package com.nutrilife.backend.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "dietas")
@@ -28,7 +29,9 @@ public class Dieta {
     private String status; // "ativa" ou "inativa"
 
     @OneToMany(mappedBy = "dieta", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Refeicao> refeicoes;
+
 
     // Construtor vazio
     public Dieta() {
