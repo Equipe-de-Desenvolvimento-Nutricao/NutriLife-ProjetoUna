@@ -313,4 +313,13 @@ export const style = StyleSheet.create({
     color: "#666",
     marginLeft: 20,
   },
+  shareButton: {
+  width: 36,
+  height: 36,
+  borderRadius: 18,
+  backgroundColor: themas.colors.primary + "15",
+  alignItems: "center",
+  justifyContent: "center",
+  marginLeft: 10,
+},
 });

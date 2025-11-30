@@ -8,6 +8,8 @@ import { RootStackParamList } from "../../../App";
 import { style } from "./styles";
 import { themas } from "../../global/themes";
 import { api } from "../../services/api";
+import * as Print from 'expo-print';
+import * as Sharing from 'expo-sharing';
 
 type DetalhesPacienteRouteProp = RouteProp<RootStackParamList, "DetalhesPaciente">;
 type DetalhesPacienteNavigationProp = NativeStackNavigationProp<RootStackParamList, "DetalhesPaciente">;
@@ -95,6 +97,173 @@ export default function DetalhesPaciente() {
     const data = new Date(dataString);
     return data.toLocaleDateString("pt-BR");
   };
+  const gerarPDF = async (dieta: Dieta) => {
+  try {
+    // Aqui está a fomratação do documetno da dieta em html
+    const html = `
+      <html>
+        <head>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              padding: 20px;
+              color: #333;
+            }
+            .header {
+              text-align: center;
+              margin-bottom: 30px;
+              border-bottom: 3px solid ${themas.colors.primary};
+              padding-bottom: 15px;
+            }
+            .titulo {
+              font-size: 24px;
+              color: ${themas.colors.primary};
+              margin-bottom: 5px;
+            }
+            .subtitulo {
+              font-size: 14px;
+              color: #666;
+            }
+            .paciente-info {
+              background-color: #f5f5f5;
+              padding: 15px;
+              border-radius: 8px;
+              margin-bottom: 20px;
+            }
+            .info-row {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 8px;
+            }
+            .info-label {
+              font-weight: bold;
+              color: #555;
+            }
+            .refeicao {
+              margin-bottom: 25px;
+              page-break-inside: avoid;
+            }
+            .refeicao-titulo {
+              background-color: ${themas.colors.primary};
+              color: white;
+              padding: 10px;
+              border-radius: 5px;
+              font-size: 18px;
+              font-weight: bold;
+            }
+            .refeicao-horario {
+              color: #fff;
+              font-size: 14px;
+              margin-left: 10px;
+            }
+            .alimentos {
+              margin-top: 10px;
+              padding-left: 20px;
+            }
+            .alimento {
+              padding: 8px 0;
+              border-bottom: 1px solid #eee;
+            }
+            .alimento-nome {
+              font-weight: 600;
+              color: #333;
+            }
+            .alimento-quantidade {
+              color: #666;
+              font-size: 14px;
+              margin-left: 10px;
+            }
+            .footer {
+              margin-top: 30px;
+              text-align: center;
+              color: #999;
+              font-size: 12px;
+              border-top: 1px solid #ddd;
+              padding-top: 15px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div class="titulo">🥗 PLANO ALIMENTAR PERSONALIZADO</div>
+            <div class="subtitulo">NutriLife - Sua Saúde em Primeiro Lugar</div>
+          </div>
+
+          <div class="paciente-info">
+            <div class="info-row">
+              <span class="info-label">Paciente:</span>
+              <span>${paciente.nome}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Idade:</span>
+              <span>${paciente.idade} anos</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Objetivo:</span>
+              <span>${dieta.titulo}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Data:</span>
+              <span>${formatarData(dieta.dataCriacao)}</span>
+            </div>
+          </div>
+
+          <h2 style="color: ${themas.colors.primary}; margin-top: 25px;">📋 Refeições</h2>
+
+          ${dieta.refeicoes && dieta.refeicoes.length > 0 
+            ? dieta.refeicoes.map(refeicao => `
+              <div class="refeicao">
+                <div class="refeicao-titulo">
+                  ${refeicao.nome}
+                  <span class="refeicao-horario">⏰ ${refeicao.horario}</span>
+                </div>
+                <div class="alimentos">
+                  ${refeicao.alimentos && refeicao.alimentos.length > 0
+                    ? refeicao.alimentos.map(alimento => `
+                      <div class="alimento">
+                        <span class="alimento-nome">• ${alimento.nome}</span>
+                        <span class="alimento-quantidade">${alimento.quantidade}</span>
+                      </div>
+                    `).join('')
+                    : '<div style="color: #999; padding: 10px;">Nenhum alimento cadastrado</div>'
+                  }
+                </div>
+              </div>
+            `).join('')
+            : '<div style="color: #999;">Nenhuma refeição cadastrada</div>'
+          }
+
+          <div class="footer">
+          <img 
+            src="https://i.pinimg.com/736x/d1/01/5c/d1015cefc5f2bc24fe49a047694ed4bb.jpg" 
+            style="width: 80px; height: 80px; margin: 0 auto 15px; display: block; border-radius: 10px;"
+  />
+            <p>Gerado pelo NutriLife - Equipe UNA em ${new Date().toLocaleDateString('pt-BR')}</p>
+            <p> Este plano alimentar foi elaborado especificamente para você. Não compartilhe sem orientação.</p>
+          </div>
+        </body>
+      </html>
+    `;
+
+    // Gera o PDF
+    const { uri } = await Print.printToFileAsync({ html });
+    
+    // Compartilha o PDF
+    if (await Sharing.isAvailableAsync()) {
+      await Sharing.shareAsync(uri, {
+        mimeType: 'application/pdf',
+        dialogTitle: `Dieta - ${paciente.nome}`,
+        UTI: 'com.adobe.pdf'
+      });
+    } else {
+      Alert.alert('Erro', 'Compartilhamento não disponível neste dispositivo');
+    }
+  } catch (error) {
+    console.error('Erro ao gerar PDF:', error);
+    Alert.alert('Erro', 'Não foi possível gerar o PDF');
+  }
+};
 
   return (
     <View style={style.container}>
@@ -211,32 +380,37 @@ export default function DetalhesPaciente() {
                 >
                   {/* Header da Dieta - CLICÁVEL */}
                   <TouchableOpacity
-                    style={style.dietaHeader}
-                    onPress={() => toggleDieta(dieta.id)}
-                    activeOpacity={0.7}
-                  >
-                    <View style={style.dietaIconContainer}>
-                      <FontAwesome5 name="utensils" size={20} color={themas.colors.primary} />
-                    </View>
-                    <View style={style.dietaInfo}>
-                      <Text style={style.dietaTitulo}>{dieta.titulo}</Text>
-                      <Text style={style.dietaData}>
-                        Criada em {formatarData(dieta.dataCriacao)}
-                      </Text>
-                      <View style={style.statusBadge}>
-                        <Text style={style.statusText}>
-                          {dieta.status === "ativa" ? "● Ativa" : "○ Inativa"}
-                        </Text>
-                      </View>
-                    </View>
-                    <FontAwesome5
-                      name={dietaExpandida === dieta.id ? "chevron-up" : "chevron-down"}
-                      size={18}
-                      color="#666"
-                      style={{ marginLeft: 10 }}
-                    />
-                  </TouchableOpacity>
-
+                style={style.dietaHeader}
+                onPress={() => toggleDieta(dieta.id)}
+                activeOpacity={0.7}
+              >
+                <View style={style.dietaIconContainer}>
+                  <FontAwesome5 name="utensils" size={20} color={themas.colors.primary} />
+                </View>
+                <View style={style.dietaInfo}>
+                  <Text style={style.dietaTitulo}>{dieta.titulo}</Text>
+                  <Text style={style.dietaData}>
+                    Criada em {formatarData(dieta.dataCriacao)}
+                  </Text>
+                  <View style={style.statusBadge}>
+                    <Text style={style.statusText}>
+                      {dieta.status === "ativa" ? "● Ativa" : "○ Inativa"}
+                    </Text>
+                  </View>
+                </View>
+                <TouchableOpacity
+                  style={style.shareButton}
+                  onPress={() => gerarPDF(dieta)}
+                >
+                  <FontAwesome5 name="share-alt" size={16} color={themas.colors.primary} />
+                </TouchableOpacity>
+                <FontAwesome5
+                  name={dietaExpandida === dieta.id ? "chevron-up" : "chevron-down"}
+                  size={18}
+                  color="#666"
+                  style={{ marginLeft: 10 }}
+                />
+                </TouchableOpacity>
                   {/* Conteúdo Expandido da Dieta */}
                   {dietaExpandida === dieta.id && (
                     <View style={style.dietaContent}>
