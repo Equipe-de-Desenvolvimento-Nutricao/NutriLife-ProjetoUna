@@ -1,5 +1,7 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import { themas } from "../../global/themes";
+
+const { width } = Dimensions.get("window");
 
 export const style = StyleSheet.create({
   container: {
@@ -33,29 +35,35 @@ export const style = StyleSheet.create({
   },
   body: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: "bold",
     color: themas.colors.secondary,
-    marginBottom: 16,
-    marginTop: 10,
+    marginBottom: 20,
+    marginTop: 20,
+    textAlign: "center",
   },
-  cardsContainer: {
+
+  // Grid 2x2 para os 4 primeiros cards
+  gridContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
+    marginBottom: 20,
   },
-  card: {
+  gridItem: {
     width: "48%",
-    aspectRatio: 1,
+    marginBottom: 15,
+  },
+  smallCard: {
     backgroundColor: "#fff",
     borderRadius: 20,
     padding: 20,
-    marginBottom: 16,
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
+    aspectRatio: 1,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.1,
@@ -63,32 +71,71 @@ export const style = StyleSheet.create({
     elevation: 5,
   },
   cardIcon: {
-    marginBottom: 12,
-    alignItems: "center", //
-    justifyContent: "center",// se der merda exluir esses dois
+    marginBottom: 10,
   },
   cardTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "bold",
     color: themas.colors.secondary,
     textAlign: "center",
     marginTop: 8,
   },
   cardDescription: {
-    fontSize: 12,
+    fontSize: 11,
     color: "#666",
     textAlign: "center",
     marginTop: 4,
   },
-  comingSoonCard: {
-    backgroundColor: "#f0f0f0",
-    borderStyle: "dashed",
-    borderWidth: 2,
-    borderColor: "#ccc",
+
+  // Card GRANDE - Criar Dieta
+  largeCard: {
+    backgroundColor: themas.colors.primary,
+    borderRadius: 20,
+    padding: 20,
+    marginBottom: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 8,
   },
-  comingSoonText: {
-    color: "#999",
+  largeCardContent: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  largeCardIcon: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 20,
+  },
+  largeCardText: {
+    flex: 1,
+  },
+  largeCardTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 6,
+  },
+  largeCardDescription: {
     fontSize: 14,
-    fontWeight: "600",
+    color: "#fff",
+    opacity: 0.9,
+    lineHeight: 20,
+  },
+
+  // Logo no final
+  logoContainer: {
+    alignItems: "center",
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  logo: {
+    width: 120,
+    height: 120,
   },
 });

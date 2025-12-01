@@ -18,6 +18,7 @@ import { themas } from "../../global/themes";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { setNutricionista } from "../../services/auth";
 
 import { api } from "../../services/api";
 
@@ -41,21 +42,29 @@ export default function Login() {
     console.log("🚀 Enviando para o servidor...");
 
     try {
-      const response = await api.post("/nutricionistas/login", {
-        email: login,
-        senha: senha,
-      });
+  const response = await api.post("/nutricionistas/login", {
+    email: login,
+    senha: senha,
+  });
 
-      console.log("✅ Resposta do servidor:", response.data);
-      Alert.alert("Sucesso", "Login realizado!");
-      navigation.navigate("Home");
+  console.log("✅ Resposta do servidor:", response.data);
+  
+  // ⭐ SALVAR OS DADOS DO NUTRICIONISTA
+  setNutricionista(
+    response.data.id,
+    response.data.usuario || response.data.nome || 'Nutricionista',
+    response.data.email
+  );
+  
+  Alert.alert("Sucesso", "Login realizado!");
+  navigation.navigate("Home");
 
-    } catch (error: any) {
-      console.log("❌ Erro na requisição:", error);
-      console.log("📋 Detalhes do erro:", error.response?.data);
-      console.log("🔢 Status:", error.response?.status);
-      Alert.alert("Erro", error.response?.data || "Falha ao conectar ao servidor.");
-    }
+} catch (error: any) {
+  console.log("❌ Erro na requisição:", error);
+  console.log("📋 Detalhes do erro:", error.response?.data);
+  console.log("🔢 Status:", error.response?.status);
+  Alert.alert("Erro", error.response?.data || "Falha ao conectar ao servidor.");
+}
   };
 
   return (

@@ -8,6 +8,7 @@ import { themas } from "../../global/themes";
 import { api } from "../../services/api";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../App";
+import { getNutricionistaId } from "../../services/auth";
 
 type MeusPacientesNavigationProp = NativeStackNavigationProp<RootStackParamList, "MeusPacientes">;
 
@@ -35,18 +36,28 @@ export default function MeusPacientes() {
   }, []);
 
   const carregarPacientes = async () => {
-    try {
-      // Por enquanto usando nutricionistaId fixo como 1
-      // Depois você pega do contexto/login
-      const response = await api.get("/pacientes/nutricionista/1");
-      setPacientes(response.data);
-    } catch (error) {
-      console.error("Erro ao carregar pacientes:", error);
-      Alert.alert("Erro", "Não foi possível carregar os pacientes.");
-    } finally {
-      setLoading(false);
+  try {
+    // Pega o ID do nutricionista logado
+    const nutricionistaId = getNutricionistaId();
+    
+    console.log("🔍 Buscando pacientes do nutricionista:", nutricionistaId);
+    
+    if (nutricionistaId === 0) {
+      Alert.alert("Erro", "Você precisa fazer login novamente");
+      navigation.navigate("Login");
+      return;
     }
-  };
+    
+    const response = await api.get(`/pacientes/nutricionista/${nutricionistaId}`);
+    console.log("✅ Pacientes carregados:", response.data.length);
+    setPacientes(response.data);
+  } catch (error) {
+    console.error("❌ Erro ao carregar pacientes:", error);
+    Alert.alert("Erro", "Não foi possível carregar os pacientes.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const renderPaciente = ({ item }: { item: Paciente }) => (
     <Animatable.View animation="fadeInUp" duration={600} style={style.card}>

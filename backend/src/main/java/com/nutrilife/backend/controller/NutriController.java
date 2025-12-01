@@ -40,26 +40,33 @@ public class NutriController {
                 .body("Cadastro realizado com sucesso!");
     }
 
-    // ============================
-    // LOGIN
-    // ============================
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+// ============================
+// LOGIN
+// ============================
+@PostMapping("/login")
+public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    System.out.println("🔵 Tentativa de login recebida");
+    System.out.println("Email: " + loginRequest.getEmail());
+    
+    Optional<Nutri> nutriOpt = nutriRepository.findByEmail(loginRequest.getEmail());
 
-        Optional<Nutri> nutriOpt = nutriRepository.findByEmail(loginRequest.getEmail());
-
-        if (nutriOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Email inválido!");
-        }
-
-        Nutri nutri = nutriOpt.get();
-
-        if (!nutri.getSenha().equals(loginRequest.getSenha())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Senha incorreta!");
-        }
-
-        return ResponseEntity.ok("Login realizado com sucesso!");
+    if (nutriOpt.isEmpty()) {
+        System.out.println("❌ Email não encontrado");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("Email inválido!");
     }
+
+    Nutri nutri = nutriOpt.get();
+
+    if (!nutri.getSenha().equals(loginRequest.getSenha())) {
+        System.out.println("❌ Senha incorreta");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body("Senha incorreta!");
+    }
+    
+    System.out.println("✅ Login bem-sucedido! ID: " + nutri.getId());
+    
+    // ⭐ RETORNA O OBJETO COMPLETO DO NUTRICIONISTA
+    return ResponseEntity.ok(nutri);
+}
 }

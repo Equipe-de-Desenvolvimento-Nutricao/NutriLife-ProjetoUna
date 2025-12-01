@@ -8,6 +8,7 @@ import { RootStackParamList } from "../../../App";
 import { style } from "./styles";
 import { themas } from "../../global/themes";
 import { api } from "../../services/api";
+import { getNutricionistaId } from "../../services/auth";
 
 type SalvarPacienteRouteProp = RouteProp<RootStackParamList, "SalvarPaciente">;
 type SalvarPacienteNavigationProp = NativeStackNavigationProp<RootStackParamList, "SalvarPaciente">;
@@ -30,8 +31,19 @@ export default function SalvarPaciente() {
     setLoading(true);
 
     try {
+      // ⭐ PEGA O ID DO NUTRICIONISTA LOGADO
+      const nutricionistaId = getNutricionistaId();
+      
+      console.log("💾 Salvando paciente para nutricionista:", nutricionistaId);
+      
+      if (nutricionistaId === 0) {
+        Alert.alert("Erro", "Você precisa fazer login novamente");
+        navigation.navigate("Login");
+        return;
+      }
+      
       await api.post("/pacientes/cadastrar", {
-        nutricionistaId: 1,
+        nutricionistaId: nutricionistaId,
         nome: nome,
         idade: parseInt(idade),
         sexo: sexo,
